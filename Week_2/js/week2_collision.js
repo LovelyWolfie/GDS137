@@ -71,8 +71,13 @@ function animate()
 	if(lBlock2.hitTestObject(player))
 	{
 		//draw bounding boxes
+		lBlock2.color = "purple";
 		context.strokeRect(lBlock2.x- lBlock2.width/2, lBlock2.y - lBlock2.height/2, lBlock2.width, lBlock2.height)
 		context.strokeRect(player.x- player.width/2, player.y - player.height/2, player.width, player.height)
+	}
+	else
+	{
+		lBlock2.color = "#9161FC";
 	}
 	
 	//Demonstrates how often collisions take place
@@ -91,6 +96,7 @@ function animate()
 	{
 		prevX = player.x;
 	}
+	
 	
 	//Update the Screen
 	player.drawCircle();
