@@ -79,6 +79,15 @@ function animate()
 	{
 		lBlock2.color = "#9161FC";
 	}
+
+	if(rBlock1.hitTestObject(player))
+	{
+		rBlock1.color = "pink";
+	}
+	else
+	{
+		rBlock1.color = "#EF7FFA";
+	}
 	
 	//Demonstrates how often collisions take place
 	if(rBlock1.hitTestObject(player))
