@@ -82,8 +82,7 @@ function draw() {
   //Sounds
 
 
-  //Game Start
+  //Game Start and end
 
   //Loop
 
-  
