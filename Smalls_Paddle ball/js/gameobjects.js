@@ -75,3 +75,15 @@ function draw() {
   }}
 
   setInterval(draw, 10);
+
+  // Animations
+
+
+  //Sounds
+
+
+  //Game Start
+
+  //Loop
+
+  
