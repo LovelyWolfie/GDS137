@@ -74,15 +74,4 @@ function draw() {
     y += dy;
   }}
 
-  setInterval(draw, 10);
-
-  // Animations
-
-
-  //Sounds
-
-
-  //Game Start and end
-
-  //Loop
-
+  setInterval(draw, 20);
