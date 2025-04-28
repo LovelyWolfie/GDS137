@@ -1,4 +1,4 @@
- {
+body {
   display: flex;
   justify-content: center;
 }
@@ -12,4 +12,4 @@
   animation-direction: alternate;
   animation-timing-function: cubic-bezier(.5, 0.05, 1, .5);
   animation-iteration-count: infinite;
-};
+}
