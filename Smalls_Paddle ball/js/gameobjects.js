@@ -59,7 +59,7 @@ function draw() {
   } else if (x > paddleX && x < paddleX + paddleWidth && (y + dy > canvas.height - paddleHeight - 20)) {
     dy = -dy;
   } else if (y + dy > canvas.height - ballRadius) {
-    $("#gameover").text("Game yay nightmare is done!");
+    $("#gameover").text("Game yay!! The nightmare is done!");
     document.location.reload();
 
   } else {
