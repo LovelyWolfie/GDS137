@@ -47,7 +47,7 @@ function drawPaddle() {
 }
 
 function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(5, 0, canvas.width, canvas.height);
   drawBall();
   drawPaddle();
 
