@@ -3,16 +3,16 @@ var ctx = canvas.getContext("2d");
 var ballRadius = 20;
 var x = canvas.width / 2;
 var y = canvas.height - 30;
-var dx = 2;
-var dy = 2;
+var dx = 3;
+var dy = -1;
 var paddleHeight = 20;
 var paddleWidth = 80;
 var paddleX = (canvas.width - paddleWidth) / 2;
 var rightPressed = false;
 var leftPressed = false;
 
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
+document.addEventListener("keydown", keyDownHandler);
+document.addEventListener("keyup", keyUpHandler);
 
 function keyDownHandler(e) {
   if (e.keyCode == 39) {
@@ -20,6 +20,7 @@ function keyDownHandler(e) {
   } else if (e.keyCode == 37) {
     leftPressed = true;
   }
+  console.log(e.key);
 }
 
 function keyUpHandler(e) {
@@ -40,16 +41,15 @@ function drawBall() {
 
 function drawPaddle() {
   ctx.beginPath();
-  ctx.rect(paddleX, canvas.height - paddleHeight - 30, paddleWidth, paddleHeight);
+  ctx.rect(paddleX, canvas.height - paddleHeight - 20, paddleWidth, paddleHeight);
   ctx.fillStyle = "#4599ED";
   ctx.fill();
   ctx.closePath();
 }
 
 function draw() {
-  ctx.clearRect(5, 0, canvas.width, canvas.height);
-  drawBall();
-  drawPaddle();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
 
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
@@ -72,6 +72,13 @@ function draw() {
 
     x += dx;
     y += dy;
-  }}
+    console.log(rightPressed, leftPressed)
+  }
+  x += dx;
+  y += dy;
+  drawBall();
+  drawPaddle();
+  
+}
 
-  setInterval(draw, 20);
+setInterval(draw, 1000/60);
