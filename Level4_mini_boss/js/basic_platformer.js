@@ -15,14 +15,34 @@ var player;
 	platform0 = new GameObject();
 		platform0.width = 200;
 		platform0.x = platform0.width/2;
-		platform0.y = canvas.height - platform0.height/2;
+		platform0.y = canvas.height - platform0.height/3;
 		platform0.color = "#66ff33";
+
+		platform1 = new GameObject();
+platform1.width = 200;
+platform1.x = canvas.width - 600;
+platform1.y = canvas.height - 200;
+platform1.color = "#28F4FA";
+
+platform2 = new GameObject();
+platform2.width = 150;
+platform2.x = canvas.width/2;
+platform2.y = canvas.height - 300;
+platform2.color = "#28FAB9";
+
+platform3 = new GameObject();
+platform3.width = 100;
+platform3.x = canvas.width - 300;
+platform3.y = canvas.height - 400;
+platform3.color = "#7BF6FA";
+
+
 		
 	goal = new GameObject({width:24, height:50, x:canvas.width-50, y:100, color:"#00ffff"});
 	
 
 	var fX = .85;
-	var fY = .97;
+	var fY = .99;
 	
 	var gravity = 1;
 
@@ -79,7 +99,79 @@ function animate()
 		player.y++;
 		player.vy = 0;
 	}
-	
+
+	while(platform1.hitTestPoint(player.top()) && player.vy <=0)
+		{
+			player.y++;
+			player.vy = 0;
+		}
+		while(platform1.hitTestPoint(player.bottom()) && player.vy >=0)
+			{
+				player.y--;
+				player.vy = 0;
+				player.canJump = true;
+			}
+			while(platform1.hitTestPoint(player.left()) && player.vx <=0)
+			{
+				player.x++;
+				player.vx = 0;
+			}
+			while(platform1.hitTestPoint(player.right()) && player.vx >=0)
+			{
+				player.x--;
+				player.vx = 0;
+			}
+			while(platform1.hitTestPoint(player.top()) && player.vy <=0)
+			{
+				player.y++;
+				player.vy = 0;
+			}
+			
+			// Platform 4 collision
+			while(platform2.hitTestPoint(player.bottom()) && player.vy >=0)
+			{
+				player.y--;
+				player.vy = 0;
+				player.canJump = true;
+			}
+			while(platform2.hitTestPoint(player.left()) && player.vx <=0)
+			{
+				player.x++;
+				player.vx = 0;
+			}
+			while(platform2.hitTestPoint(player.right()) && player.vx >=0)
+			{
+				player.x--;
+				player.vx = 0;
+			}
+			while(platform2.hitTestPoint(player.top()) && player.vy <=0)
+			{
+				player.y++;
+				player.vy = 0;
+			}
+			
+			// Platform 5 collision
+			while(platform3.hitTestPoint(player.bottom()) && player.vy >=0)
+			{
+				player.y--;
+				player.vy = 0;
+				player.canJump = true;
+			}
+			while(platform3.hitTestPoint(player.left()) && player.vx <=0)
+			{
+				player.x++;
+				player.vx = 0;
+			}
+			while(platform3.hitTestPoint(player.right()) && player.vx >=0)
+			{
+				player.x--;
+				player.vx = 0;
+			}
+			while(platform3.hitTestPoint(player.top()) && player.vy <=0)
+			{
+				player.y++;
+				player.vy = 0;
+			}
 	
 	//---------Objective: Treasure!!!!!!!---------------------------------------------------------------------------------------------------- 
 	//---------Run this program first.
@@ -88,57 +180,8 @@ function animate()
 	//---------RULE1: You cannot spawn your player on the pearl!
 	//---------RULE2: You cannot change the innitial locations of platform0 or the goal! 
 
-	class Platform {
-        constructor(x, y, width, height, color = 'black') {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.color = color;
-        }
-
-        draw() {
-            ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
-    }
-	const platforms = [
-        new Platform(50, 400, 200, 20),
-        new Platform(350, 300, 150, 20),
-        new Platform(100, 200, 100, 20)
-    ];
-	function checkCollision(player, platform) {
-		return (
-			player.x < platform.x + platform.width &&
-			player.x + player.width > platform.x &&
-			player.y < platform.y + platform.height &&
-			player.y + player.height > platform.y
-		);
-	  }
-  
-	  // Example usage in gameLoop
-	  platforms.forEach(platform => {
-		  if (checkCollision(player, platform)) {
-			  // Handle collision (e.g., stop player's vertical movement)
-		  }
-	  });
-	  function gameLoop() {
-        // Clear the canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw platforms
-        platforms.forEach(platform => platform.draw());
-
-        // Other game logic (player movement, etc.)
-
-        requestAnimationFrame(gameLoop);
-    }
-
-    gameLoop(); // Start the game loop
 
 
-
-		
 	if(player.hitTestObject(goal))
 	{
 		goal.y = 10000;
@@ -148,6 +191,9 @@ function animate()
 	
 	
 	platform0.drawRect();
+	platform1.drawRect();
+    platform2.drawRect();
+    platform3.drawRect();
 
 	//Show hit points
 	player.drawRect();
