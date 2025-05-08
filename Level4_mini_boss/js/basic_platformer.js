@@ -87,6 +87,57 @@ function animate()
 	//---------You can do anything you would like except break the following rules:
 	//---------RULE1: You cannot spawn your player on the pearl!
 	//---------RULE2: You cannot change the innitial locations of platform0 or the goal! 
+
+	class Platform {
+        constructor(x, y, width, height, color = 'black') {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.color = color;
+        }
+
+        draw() {
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+	const platforms = [
+        new Platform(50, 400, 200, 20),
+        new Platform(350, 300, 150, 20),
+        new Platform(100, 200, 100, 20)
+    ];
+	function checkCollision(player, platform) {
+		return (
+			player.x < platform.x + platform.width &&
+			player.x + player.width > platform.x &&
+			player.y < platform.y + platform.height &&
+			player.y + player.height > platform.y
+		);
+	  }
+  
+	  // Example usage in gameLoop
+	  platforms.forEach(platform => {
+		  if (checkCollision(player, platform)) {
+			  // Handle collision (e.g., stop player's vertical movement)
+		  }
+	  });
+	  function gameLoop() {
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw platforms
+        platforms.forEach(platform => platform.draw());
+
+        // Other game logic (player movement, etc.)
+
+        requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop(); // Start the game loop
+
+
+
 		
 	if(player.hitTestObject(goal))
 	{
