@@ -1,53 +1,55 @@
-// Game controls
-const keys = {
-    left: false,
-    right: false,
-    up: false
-};
+var w = false;
+var a = false;
+var s = false;
+var d = false;
 
-// Event listeners for controls
-document.addEventListener('keydown', (e) => {
-    switch(e.key) {
-        case 'ArrowLeft':
-            keys.left = true;
-            break;
-        case 'ArrowRight':
-            keys.right = true;
-            break;
-        case 'ArrowUp':
-        case ' ':
-            keys.up = true;
-            player.jump();
-            break;
-    }
-});
 
-document.addEventListener('keyup', (e) => {
-    switch(e.key) {
-        case 'ArrowLeft':
-            keys.left = false;
-            break;
-        case 'ArrowRight':
-            keys.right = false;
-            break;
-        case 'ArrowUp':
-        case ' ':
-            keys.up = false;
-            break;
-    }
-});
+document.addEventListener("keydown", press);
+document.addEventListener("keyup", release);
 
-// Game loop
-const player = new Player();
-
-function gameLoop() {
-    // Handle movement based on key states
-    if (keys.left) player.move('left');
-    if (keys.right) player.move('right');
-
-    // Update player state
-    player.update();
-
-    // Request next frame
-    requestAnimationFrame(gameLoop);
+function press(e)
+{
+	//---This logs key codes into the browser's console.
+	console.log(e.keyCode);
+	
+	if(e.keyCode == 87)
+	{
+		w = true;
+	}
+	if(e.keyCode == 65)
+	{
+		a = true;
+	}
+	if(e.keyCode == 83)
+	{
+		s = true;
+	}
+	if(e.keyCode == 68)
+	{
+		d = true;
+	}
 }
+
+function release(e)
+{
+	//---This logs key codes into the browser's console.
+	//console.log(e.keyCode);
+	
+	if(e.keyCode == 87)
+	{
+		w = false;
+	}
+	if(e.keyCode == 65)
+	{
+		a = false;
+	}
+	if(e.keyCode == 83)
+	{
+		s = false;
+	}
+	if(e.keyCode == 68)
+	{
+		d = false;
+	}
+}
+
