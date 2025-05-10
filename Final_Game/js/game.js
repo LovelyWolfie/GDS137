@@ -5,7 +5,7 @@ var timer = setInterval(animate, interval);
 
 // Load the sprite sheet
 var playerSprite = new Image();
-playerSprite.src = 'player.png';
+playerSprite.src = "images/player.png";
 
 // Sprite animation variables
 var frameWidth = 128; // Adjust based on your sprite sheet
