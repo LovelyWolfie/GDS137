@@ -2,21 +2,22 @@ var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 var interval = 1000/60;
 var timer = setInterval(animate, interval);
-
+//read the comments I made Jojo
 // Load the sprite sheet
 var playerSprite = new Image();
 playerSprite.src = "images/player.png";
 
 // Sprite animation variables
-var frameWidth = 128; // Adjust based on your sprite sheet
+var frameWidth = 128; // Adjust based on your sprite sheet, figure it out it not that hard
+//if you still can't get it, Jojo. Ask for your teacher help and tell them about your disability.
 var frameHeight = 128; // Adjust based on your sprite sheet
 var currentFrame = 0;
-var frameCount = 4; // Number of frames in each row
+var frameCount = 4; // Number of frames in each row, it sould have the correct row and column I think.
 var rowCount = 4; // Number of rows
 var currentRow = 0; // Current animation row
 var animationSpeed = 8; // Adjust to control animation speed
 var frameCounter = 0;
-
+//you can do it Jojo, I believe in you.
 var player = new GameObject({width:29, height:32, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
 var goal = new GameObject({width:50, height:50, angle:0, x:canvas.width/2, y:canvas.height-100, force:1, color:"red"})
 goal.world.x = 1740;
@@ -112,7 +113,7 @@ states["play"] = function()
         frameCounter = 0;
     }
 
-    // Draw sprite
+    // Draw sprite, meaning your frame 
     if (Math.abs(player.vx) > 0.1 || Math.abs(player.vy) > 0.1) {
         context.drawImage(
             playerSprite,
@@ -139,7 +140,7 @@ states["play"] = function()
             player.height
         );
     }
-
+//Jojo again figure it out first for yourself if you can't do it, ask your teacher.
     goal.drawRect();
 }
 
