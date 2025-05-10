@@ -17,7 +17,7 @@ var currentRow = 0; // Current animation row
 var animationSpeed = 8; // Adjust to control animation speed
 var frameCounter = 0;
 
-var player = new GameObject({width:32, height:32, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
+var player = new GameObject({width:29, height:32, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
 var goal = new GameObject({width:50, height:50, angle:0, x:canvas.width/2, y:canvas.height-100, force:1, color:"red"})
 goal.world.x = 1740;
 goal.world.y = 1700;
@@ -129,9 +129,9 @@ states["play"] = function()
         // Draw idle frame (first frame of current direction)
         context.drawImage(
             playerSprite,
-            0,
+            0,1,
             currentRow * frameHeight,
-            frameWidth,
+            frameWidth, 29,
             frameHeight,
             player.x - player.width/2,
             player.y - player.height/2,
