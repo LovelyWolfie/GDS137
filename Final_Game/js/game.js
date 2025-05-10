@@ -8,8 +8,8 @@ var playerSprite = new Image();
 playerSprite.src = 'player.png';
 
 // Sprite animation variables
-var frameWidth = 32; // Adjust based on your sprite sheet
-var frameHeight = 32; // Adjust based on your sprite sheet
+var frameWidth = 128; // Adjust based on your sprite sheet
+var frameHeight = 128; // Adjust based on your sprite sheet
 var currentFrame = 0;
 var frameCount = 4; // Number of frames in each row
 var rowCount = 4; // Number of rows
