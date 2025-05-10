@@ -1,19 +1,29 @@
-
 var canvas = document.getElementById("canvas");
-	
 var context = canvas.getContext("2d");
-
 var interval = 1000/60;
 var timer = setInterval(animate, interval);
 
-var player = new GameObject({width:50, height:50, angle:0, x:canvas.width/2, y:canvas.height-100, force:1, color:"gray"})
+// Load the sprite sheet
+var playerSprite = new Image();
+playerSprite.src = 'player.png';
+
+// Sprite animation variables
+var frameWidth = 32; // Adjust based on your sprite sheet
+var frameHeight = 32; // Adjust based on your sprite sheet
+var currentFrame = 0;
+var frameCount = 4; // Number of frames in each row
+var rowCount = 4; // Number of rows
+var currentRow = 0; // Current animation row
+var animationSpeed = 8; // Adjust to control animation speed
+var frameCounter = 0;
+
+var player = new GameObject({width:32, height:32, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
 var goal = new GameObject({width:50, height:50, angle:0, x:canvas.width/2, y:canvas.height-100, force:1, color:"red"})
 goal.world.x = 1740;
 goal.world.y = 1700;
-//This is used to move the level elements
+
 var level = new Level();
-//This generates a tile based level.
-	level.generate(level.l1, 150,150);		
+level.generate(level.l1, 150,150);		
 
 var fx = .85;
 var fy = .85;
@@ -21,99 +31,120 @@ var fy = .85;
 var states =[];
 var currentState = "play";
 
-//When moving the level, we first move the player as usual. Then we utilize an offset object to keep track of how much the collision detection affects the player's position. Then we move both the player and the level back the total number of pixels that the player moved over one loop of animation.
-
 states["play"] = function()
 {
-	if(w)
-	{
-		player.vy += player.ay * -player.force;
-	}
-	if(a)
-	{
-		player.vx += player.ax * -player.force;
-	}
-	if(s)
-	{
-		player.vy += player.ay * player.force;
-	}
-	if(d)
-	{
-		player.vx += player.ax * player.force;
-	}
-	
-	player.vx *= fx;
-	player.vy *= fy;
-	
-	player.x += player.vx;
-	player.y += player.vy;
-	
-	//Used to move the player and level back so that it appears as though the level moved and not the player.
-	var offset = {x:player.vx, y:player.vy};
-	
-	//All tile code
-	for(var i = 0; i < level.grid.length; i++)
-	{
-		level.grid[i].drawRect();
-		//Hit top
-		while(level.grid[i].hitTestPoint(player.top()) && player.vy <= 0)
-		{
-			player.vy = 0;
-			player.y++;
-			offset.y++;
-		}
-		//Hit right
-		while(level.grid[i].hitTestPoint(player.right()) && player.vx >= 0)
-		{
-			player.vx = 0;
-			player.x--;
-			offset.x--;
-		}
-		//Hit left
-		while(level.grid[i].hitTestPoint(player.left()) && player.vx <= 0)
-		{
-			player.vx = 0;
-			player.x++;
-			offset.x++;
-		}
-		//Hit bottom
-		while(level.grid[i].hitTestPoint(player.bottom()) && player.vy >= 0)
-		{
-			player.canJump = true;
-			player.vy = 0;
-			player.y--;
-			offset.y--;
-		}
-		
-	}
+    // Movement logic
+    if(w)
+    {
+        player.vy += player.ay * -player.force;
+        currentRow = 3; // Up animation row
+    }
+    if(a)
+    {
+        player.vx += player.ax * -player.force;
+        currentRow = 1; // Left animation row
+    }
+    if(s)
+    {
+        player.vy += player.ay * player.force;
+        currentRow = 0; // Down animation row
+    }
+    if(d)
+    {
+        player.vx += player.ax * player.force;
+        currentRow = 2; // Right animation row
+    }
+    
+    player.vx *= fx;
+    player.vy *= fy;
+    
+    player.x += player.vx;
+    player.y += player.vy;
+    
+    var offset = {x:player.vx, y:player.vy};
+    
+    // Collision detection
+    for(var i = 0; i < level.grid.length; i++)
+    {
+        level.grid[i].drawRect();
+        while(level.grid[i].hitTestPoint(player.top()) && player.vy <= 0)
+        {
+            player.vy = 0;
+            player.y++;
+            offset.y++;
+        }
+        while(level.grid[i].hitTestPoint(player.right()) && player.vx >= 0)
+        {
+            player.vx = 0;
+            player.x--;
+            offset.x--;
+        }
+        while(level.grid[i].hitTestPoint(player.left()) && player.vx <= 0)
+        {
+            player.vx = 0;
+            player.x++;
+            offset.x++;
+        }
+        while(level.grid[i].hitTestPoint(player.bottom()) && player.vy >= 0)
+        {
+            player.canJump = true;
+            player.vy = 0;
+            player.y--;
+            offset.y--;
+        }
+    }
 
-	//This is where we check to see if player mkes it to the goal
-	if(player.hitTestObject(goal)){
-		console.log("hit goal");
-		//Play your sound here
-	}
-	//Moves the level and the player back the total number of pixels traveled over one animation loop.
-	player.x -= offset.x;
-	player.y -= offset.y;
-	goal.x -= offset.x;
-	goal.y -= offset.y;
-	level.x -= offset.x;
-	level.y -= offset.y;
-	
-	//Draws the player
-	player.drawRect();
-	player.drawDebug();
+    if(player.hitTestObject(goal)){
+        console.log("hit goal");
+    }
 
-	goal.drawRect();
+    player.x -= offset.x;
+    player.y -= offset.y;
+    goal.x -= offset.x;
+    goal.y -= offset.y;
+    level.x -= offset.x;
+    level.y -= offset.y;
+    
+    // Animate sprite
+    frameCounter++;
+    if (frameCounter >= animationSpeed) {
+        currentFrame = (currentFrame + 1) % frameCount;
+        frameCounter = 0;
+    }
+
+    // Draw sprite
+    if (Math.abs(player.vx) > 0.1 || Math.abs(player.vy) > 0.1) {
+        context.drawImage(
+            playerSprite,
+            currentFrame * frameWidth,
+            currentRow * frameHeight,
+            frameWidth,
+            frameHeight,
+            player.x - player.width/2,
+            player.y - player.height/2,
+            player.width,
+            player.height
+        );
+    } else {
+        // Draw idle frame (first frame of current direction)
+        context.drawImage(
+            playerSprite,
+            0,
+            currentRow * frameHeight,
+            frameWidth,
+            frameHeight,
+            player.x - player.width/2,
+            player.y - player.height/2,
+            player.width,
+            player.height
+        );
+    }
+
+    goal.drawRect();
 }
 
-//--------------------------------------------Animation Loop-------------------------------------------
 function animate()
 {
-	context.clearRect(0,0,canvas.width, canvas.height);	
-	states[currentState]();
+    context.clearRect(0,0,canvas.width, canvas.height);	
+    states[currentState]();
 }
-
-
-
-
