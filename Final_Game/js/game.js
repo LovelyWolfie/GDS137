@@ -20,9 +20,9 @@ var frameCounter = 0;
 // Animation states
 const ANIM_STATES = {
     DOWN: 0,  // First row
-    LEFT: 1,  // Second row
-    RIGHT: 2, // Third row
-    UP: 3     // Fourth row
+    LEFT: 3,  // Second row
+    RIGHT: 1, // Third row
+    UP: 2    // Fourth row
 };
 
 // Frame sequences for each animation state
@@ -33,7 +33,7 @@ const FRAME_SEQUENCES = {
     UP:    [12, 13, 14, 15]
 };
 
-var player = new GameObject({width:25, height:26, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
+var player = new GameObject({width:150, height:150, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
 var goal = new GameObject({width:50, height:50, angle:0, x:canvas.width/2, y:canvas.height-100, force:1, color:"red"})
 goal.world.x = 1740;
 goal.world.y = 1700;
