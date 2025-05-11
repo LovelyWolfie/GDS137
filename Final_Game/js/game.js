@@ -5,7 +5,7 @@ var timer = setInterval(animate, interval);
 
 // Load the sprite sheet
 var playerSprite = new Image();
-playerSprite.src = 'player.png';
+playerSprite.src = "images/player.png";
 
 // Sprite animation variables
 var frameWidth = 32; // Width of each frame
@@ -33,7 +33,7 @@ const FRAME_SEQUENCES = {
     UP:    [12, 13, 14, 15]
 };
 
-var player = new GameObject({width:32, height:32, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
+var player = new GameObject({width:25, height:26, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
 var goal = new GameObject({width:50, height:50, angle:0, x:canvas.width/2, y:canvas.height-100, force:1, color:"red"})
 goal.world.x = 1740;
 goal.world.y = 1700;
