@@ -2,23 +2,38 @@ var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 var interval = 1000/60;
 var timer = setInterval(animate, interval);
-//read the comments I made Jojo
+
 // Load the sprite sheet
 var playerSprite = new Image();
-playerSprite.src = "images/player.png";
+playerSprite.src = 'player.png';
 
 // Sprite animation variables
-var frameWidth = 25; // Adjust based on your sprite sheet, figure it out it not that hard
-//if you still can't get it, Jojo. Ask for your teacher help and tell them about your disability.
-var frameHeight = 25; // Adjust based on your sprite sheet
+var frameWidth = 32; // Width of each frame
+var frameHeight = 32; // Height of each frame
 var currentFrame = 0;
-var frameCount = 4; // Number of frames in each row, it sould have the correct row and column I think.
+var frameCount = 4; // Frames per row
 var rowCount = 4; // Number of rows
-var currentRow = 0; // Current animation row
-var animationSpeed = 8; // Adjust to control animation speed
+var currentRow = 0;
+var animationSpeed = 8;
 var frameCounter = 0;
-//you can do it Jojo, I believe in you.
-var player = new GameObject({width:25, height:25, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
+
+// Animation states
+const ANIM_STATES = {
+    DOWN: 0,  // First row
+    LEFT: 1,  // Second row
+    RIGHT: 2, // Third row
+    UP: 3     // Fourth row
+};
+
+// Frame sequences for each animation state
+const FRAME_SEQUENCES = {
+    DOWN:  [0, 1, 2, 3],
+    LEFT:  [4, 5, 6, 7],
+    RIGHT: [8, 9, 10, 11],
+    UP:    [12, 13, 14, 15]
+};
+
+var player = new GameObject({width:32, height:32, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
 var goal = new GameObject({width:50, height:50, angle:0, x:canvas.width/2, y:canvas.height-100, force:1, color:"red"})
 goal.world.x = 1740;
 goal.world.y = 1700;
@@ -32,28 +47,41 @@ var fy = .85;
 var states =[];
 var currentState = "play";
 
+function getFrameCoordinates(frameNumber) {
+    const row = Math.floor(frameNumber / 4);
+    const col = frameNumber % 4;
+    return { x: col * frameWidth, y: row * frameHeight };
+}
+
 states["play"] = function()
 {
+    let isMoving = false;
+    let currentDirection = ANIM_STATES.DOWN; // Default direction
+
     // Movement logic
     if(w)
     {
         player.vy += player.ay * -player.force;
-        currentRow = 3; // Up animation row
+        currentDirection = ANIM_STATES.UP;
+        isMoving = true;
     }
     if(a)
     {
         player.vx += player.ax * -player.force;
-        currentRow = 1; // Left animation row
+        currentDirection = ANIM_STATES.LEFT;
+        isMoving = true;
     }
     if(s)
     {
         player.vy += player.ay * player.force;
-        currentRow = 0; // Down animation row
+        currentDirection = ANIM_STATES.DOWN;
+        isMoving = true;
     }
     if(d)
     {
         player.vx += player.ax * player.force;
-        currentRow = 2; // Right animation row
+        currentDirection = ANIM_STATES.RIGHT;
+        isMoving = true;
     }
     
     player.vx *= fx;
@@ -106,41 +134,34 @@ states["play"] = function()
     level.x -= offset.x;
     level.y -= offset.y;
     
-    // Animate sprite
-    frameCounter++;
-    if (frameCounter >= animationSpeed) {
-        currentFrame = (currentFrame + 1) % frameCount;
-        frameCounter = 0;
+    // Animation logic
+    if (isMoving) {
+        frameCounter++;
+        if (frameCounter >= animationSpeed) {
+            currentFrame = (currentFrame + 1) % 4;
+            frameCounter = 0;
+        }
+    } else {
+        currentFrame = 0; // Reset to first frame when idle
     }
 
-    // Draw sprite, meaning your frame 
-    if (Math.abs(player.vx) > 0.1 || Math.abs(player.vy) > 0.1) {
-        context.drawImage(
-            playerSprite,
-            currentFrame * frameWidth,
-            currentRow * frameHeight,
-            frameWidth,
-            frameHeight,
-            player.x - player.width/2,
-            player.y - player.height/2,
-            player.width,
-            player.height
-        );
-    } else {
-        // Draw idle frame (first frame of current direction)
-        context.drawImage(
-            playerSprite,
-            0,1,
-            currentRow * frameHeight,
-            frameWidth, 29,
-            frameHeight,
-            player.x - player.width/2,
-            player.y - player.height/2,
-            player.width,
-            player.height
-        );
-    }
-//Jojo again figure it out first for yourself if you can't do it, ask your teacher.
+    // Calculate which frame to show
+    const frameNumber = FRAME_SEQUENCES[Object.keys(ANIM_STATES)[currentDirection]][currentFrame];
+    const frameCoords = getFrameCoordinates(frameNumber);
+
+    // Draw the sprite
+    context.drawImage(
+        playerSprite,
+        frameCoords.x,
+        frameCoords.y,
+        frameWidth,
+        frameHeight,
+        player.x - player.width/2,
+        player.y - player.height/2,
+        player.width,
+        player.height
+    );
+
     goal.drawRect();
 }
 
