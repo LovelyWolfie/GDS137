@@ -33,7 +33,7 @@ const FRAME_SEQUENCES = {
     UP:    [12, 13, 14, 15]
 };
 
-var player = new GameObject({width:100, height:100, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
+var player = new GameObject({width:100, height:160, angle:0, x:canvas.width/2, y:canvas.height-100, force:1})
 var goal = new GameObject({width:50, height:50, angle:0, x:canvas.width/2, y:canvas.height-100, force:1, color:"red"})
 goal.world.x = 1740;
 goal.world.y = 1700;
