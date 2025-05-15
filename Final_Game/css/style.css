@@ -3,6 +3,8 @@
     width: 1000px;
     height: 800px;
     margin: 0 auto;
+    /* Add subtle shadow for depth */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 #canvas {
@@ -14,4 +16,48 @@
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
+    /* Add grey floor background color */
+    background-color: #808080; /* Standard grey */
+    /* Or choose from these grey variations: */
+    /*background-color: #696969;*/ /* DimGrey */
+    /*background-color: #A9A9A9;*/ /* DarkGrey */
+    /*background-color: #D3D3D3;*/ /* LightGrey */
+    
+    /* Add gradient for more depth */
+    background: linear-gradient(
+        45deg,
+        #808080,    /* Base grey */
+        #909090     /* Slightly lighter grey */
+    );
+
+    /* Optional: Add tile texture */
+    background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 50px,
+        rgba(0, 0, 0, 0.05) 50px,
+        rgba(0, 0, 0, 0.05) 100px
+    ),
+    repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 50px,
+        rgba(0, 0, 0, 0.05) 50px,
+        rgba(0, 0, 0, 0.05) 100px
+    );
+}
+
+/* Optional: Add hover effect for interactive feel */
+#canvas:hover {
+    cursor: none;
+    background-color: #8a8a8a; /* Slightly lighter on hover */
+}
+
+/* Optional: Add media query for responsive design */
+@media (max-width: 1000px) {
+    .game-container {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 5/4;
+    }
 }
